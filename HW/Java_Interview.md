@@ -2,5 +2,6 @@
 
 
 0601 - https://rt-bucket06.s3.us-east-2.amazonaws.com/0601.mp4
+
 0601NEW - https://rt-bucket06.s3.us-east-2.amazonaws.com/0601_final.mp4
 
