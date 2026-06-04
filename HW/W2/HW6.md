@@ -1,20 +1,20 @@
-#HW6
+# HW6
 
-##1. Client-Server Model
+## 1. Client-Server Model
 The client-server model is a way of organizing software where two types of programs work together over a network. 
 clients make requests and servers respond.
 
 The client is like a web browser requesting a webpage. The server is like a web server sending back the HTML content. 
 Neither side needs to know everything about how the other works internally, they just communicate through an agreed-upon protocol. For example, when you open Gmail, your browser (client) asks Google's server for your emails, and the server finds them in its database and sends them back.
 
-##2. Application Service
+## 2. Application Service
 An application service (a business logic layer or app server) is the middle layer in a system that handles the actual rules and workflows of an application. 
 It sits between the frontend that users see and the database that stores data. 
 For example, in an online shopping app, the application service would handle things like: 
 checking whether an item is in stock, applying discount codes, calculating shipping costs, and deciding if a user is allowed to place an order. 
 It keeps the business rules in one place so both the web app and mobile app can share the same logic.
 
-##3. HTTP Request / Response
+## 3. HTTP Request / Response
 HTTP (HyperText Transfer Protocol) is the language that web browsers and servers use to talk to each other. A request is a message the client sends to the server. 
 Every request has a method (like GET, or POST), a URL (the address of the resource), headers (extra info like what format the client wants), and sometimes a body (the actual data being sent, like an HTML page or JSON data).
 A response is what the server wrapping it up and sends back. 
@@ -55,7 +55,7 @@ Request Message Body
 Ex: bookId=12345&author=Tan+Ah+Tech
 
 
-##4. Horizontal Scaling vs Vertical Scaling
+## 4. Horizontal Scaling vs Vertical Scaling
 When an application needs to handle more users or traffic, we need to scale it.
 
 Vertical Scaling (Scale Up): 
@@ -72,14 +72,14 @@ Vertical scaling is easier because you simply increase the CPU and memory of the
 
 In summary: vertical scaling is going taller, horizontal scaling is going wider.
 
-##5. Load Balancer
+## 5. Load Balancer
 A load balancer is a component that sits in front of multiple servers and decides which server should handle each incoming request. 
 Without a load balancer, all traffic would hit just one server and overwhelm it. 
 The load balancer distributes requests evenly (or based on rules) so no single server gets overloaded. 
 It also monitors server health — if one server goes down, the load balancer stops sending traffic to it and routes requests to the healthy ones. 
 Common strategies include round-robin (take turns), least connections (send to the least busy server), and IP hashing (always send the same user to the same server).
 
-##6. Microservice & Microfrontend
+## 6. Microservice & Microfrontend
 Microservice: 
 A microservice is an architectural style where a large application is broken into many small, independent services, each responsible for one specific thing. 
 Ex: in an e-commerce app you might have a separate service for user accounts, another for the product catalog, another for the shopping cart, 
@@ -91,7 +91,7 @@ A microfrontend applies the same idea to the user interface. Instead of one big 
 Ex: the header, the search page, and the checkout page — and each can be built and deployed separately. 
 This is especially useful for large organizations where multiple teams work on the same product.
 
-##7. Database: Relational vs non-relational
+## 7. Database: Relational vs non-relational
 Relational Database (SQL Database)
 A relational database stores data in structured tables with rows and columns — like a very organized spreadsheet. 
 Tables are linked together using relationships (hence the name). You query the data using SQL (Structured Query Language). 
@@ -105,14 +105,14 @@ They're also often easier to scale horizontally.
 Use NoSQL when data is varied, high-volume, or doesn't fit neatly into tables — like user activity logs or social media posts.
 Ex: MongoDB (document), Redis (key-value), Cassandra (column-wide), Neo4j (graph). 
 
-##8. API Gateway
+## 8. API Gateway
 An API Gateway is a single-entry point that sits in front of all your backend services. Instead of clients calling each microservice directly, 
 they call the API Gateway, which then routes the request to the right service. 
 It acts like a traffic cop and also handles cross-cutting concerns such as authentication (checking if you're logged in), 
 rate limiting (preventing one user from flooding the system), SSL termination, request logging, and response caching. 
 This simplifies the client's job — it only needs to know one address — and keeps security logic in one place. Examples: AWS API Gateway, Kong, NGINX.
 
-##9. Message Queue
+## 9. Message Queue
 A message queue is a way for different parts of a system to communicate asynchronously,
 meaning the sender doesn't have to wait for the receiver to process the message right away. 
 The sender puts a message into the queue, and the receiver picks it up when ready. 
@@ -120,7 +120,7 @@ This is useful for tasks that take a long time (like sending emails or processin
 or when you want to handle traffic spikes gracefully — the queue absorbs the burst and workers process it at their own pace. 
 Ex: RabbitMQ, Apache Kafka, Amazon SQS. Think of it like a restaurant ticket system: the cashier submits the order (message) and the kitchen (consumer) processes it when they're ready.
 
-##10. Log & Monitor
+## 10. Log & Monitor
 Log: A log is a time-stamped record of events that happened in your application — like who logged in, what API was called, or what error occurred. 
 Logs are essential for debugging problems after the fact. You can search them to understand what went wrong. 
 Tools: ELK Stack (Elasticsearch, Logstash, Kibana), Splunk, CloudWatch Logs.
@@ -130,7 +130,7 @@ Ex: CPU usage spiking above 90%, response times getting slow, or error rates cli
 monitoring tells you the current health of your system. Tools: Prometheus, Grafana, Datadog, New Relic.
 Together, logging and monitoring are how teams know their system is working — and quickly diagnose it when it's not.
 
-##11. Deployment with AWS / Azure / GCP
+## 11. Deployment with AWS / Azure / GCP
 AWS (Amazon Web Services), Azure (Microsoft), and GCP (Google Cloud Platform) are the three major cloud providers. 
 They offer compute, storage, networking, databases, and hundreds of other managed services.
 Deploying an application to the cloud typically involves:
@@ -141,7 +141,7 @@ Deploying an application to the cloud typically involves:
 • Configuring CI/CD pipelines so code automatically deploys when changes are pushed
 The major benefit of cloud deployment is that you don't need to buy and manage physical hardware — you pay for what you use and can scale instantly.
 
-##12. Security: Authentication and Authorization
+## 12. Security: Authentication and Authorization
 Authentication: the process of verifying a user's identity via username/password, biometrics, or an OAuth token from a provider like Google. 
 Authorization: checks what permissions you have. 
 Ex: a regular user might be able to read documents, but only an admin can delete them. 
@@ -151,7 +151,7 @@ A simple analogy:
 at a concert, authentication is showing your ID at the door, 
 and authorization is what your ticket type lets you access — general admission vs. VIP backstage.
 
-##13. Why Testing
+## 13. Why Testing
 Testing is how we verify that our code actually does what we intended — and that changing one thing doesn't break something else. There are several types:
 •  Unit Tests: Test individual functions or classes in isolation
 •  Integration Tests: Test how different components work together
