@@ -160,3 +160,21 @@ Testing is how we verify that our code actually does what we intended — and th
 Without testing, every change is a leap of faith. Testing saves time in the long run by catching bugs early (when they're cheap to fix), 
 gives developers confidence to refactor code, and serves as documentation of intended behavior. 
 The goal is not 100% coverage for its own sake, but meaningful tests that protect the critical paths of the application.
+
+## Script
+### 1. Client-Server Model
+### 2. Application Service
+### 3. HTTP Request / Response
+### 4. Horizontal Scaling vs Vertical Scaling
+### 5. Load Balancer
+### 6. Microservice & Microfrontend
+### 7. Database: Relational vs non-relational
+### 8. API Gateway
+### 9. Message Queue
+### 10. Log & Monitor
+### 11. Deployment with AWS / Azure / GCP
+### 12. Security: Authentication and Authorization
+### 13. Why Testing
+
+## S3 link
+
