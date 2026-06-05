@@ -1,4 +1,4 @@
-# Homework 7
+Notes
 
 ### 1. Optimized Singleton Pattern
 The Singleton pattern ensures a class has only one instance throughout the application's lifetime. 
