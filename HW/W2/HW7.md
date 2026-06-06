@@ -1,8 +1,15 @@
-Notes
+# HW7
 
 ### 1. Optimized Singleton Pattern
 The Singleton pattern ensures a class has only one instance throughout the application's lifetime. 
-The optimized version uses double-checked locking to be both thread-safe and efficient:
+The optimized version uses double-checked locking to be both thread-safe and efficient. Locks only when the instance is null — after creation, no locking overhead.
+First check — avoids locking every time after instance is created (performance)
+Second check — prevents duplicate creation if two threads both passed the first check simultaneously.
+
+Why volatile?
+Without volatile, the JVM can reorder instructions — a thread might see a partially constructed object.
+volatile prevents instruction reordering and ensures the fully constructed object is visible to all threads.
+
 
 public class Singleton {
 
