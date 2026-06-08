@@ -1,5 +1,5 @@
 Homework 8
-
+1.	TCP 3-way handshaking
 Before two computers can exchange data reliably over TCP, they perform a three-way handshake to establish a connection. Think of it like a formal greeting before a conversation:
 •	SYN (Synchronize): The client sends a SYN packet to the server, essentially saying 'I want to connect. Here is my starting sequence number.'
 •	SYN-ACK (Synchronize-Acknowledge): The server responds with a SYN-ACK packet, saying 'I got your request and I agree. Here is my starting sequence number. Acknowledge mine.'
@@ -58,5 +58,55 @@ A helpful mnemonic for the layers bottom to top: Please Do Not Throw Sausage Piz
 8. Video Notes (Videos 1–19)
 Notes placeholder — to be filled in based on specific video content from your course materials. The following structure can be used for each video:
 
+- 1  Spring build applications easier
+     Spring Framework provide some features to makes complex and heavy Java easier.
+     Spring includes manu projects Spting Boot, Spring Framework, Spring Cloud, Spinrg     Data, Spring AI...
+     
+- 2 E-commerse website
+    Add/update/delete, sort by category, search bar
+    Frontend and Backend different package
+- 3 Framework: Spring 6
+    Language: Java language
+    OOPs concept, Thread, Collection, Exception
+    Build tool: Maven / Gradle
+    Database: JDBC
+    Hibernate -> Spring Data JPA
+    XML, Json
+    IDE(Integrated Development Environment): VScode, IntelliJ(ultimate version),   Eclipse
+    JDK version >= 17, LTS version is better -> 21
+- 4 Dependency Injection & IOC
+    Three layer:
+      - Controller layer
+        create the object of service to communicate with service
+      - Service layer (Buisness logic)
+        create object of repository to communicate with repository
+      - Repository layer
 
+  General creating objects incldue the whole cycle of it -> create, manage, and destroy it.
+  Instead insert NEW keyword follow IOC principle and use DI to create the object.
+  
+    IOC: Inversion of Control principle - use DI to implement.
+  
+    DI: Dependency Injection design pattern.
+        - Constructor Injection: pass the reference of service
+        - Setter Injection: create a setter for service
+        - Field Injection(Not recommend): loose coupling, not able to mock test.
+              Don't have a concrete implementation of one class in the other, you code for interfaces.
+
+- 5 Spring Boot: Opinionated Framework
+    It is better than Spring Framwork. Convention over Configuration.
+    General before run:
+     - need to talk to the framework -> Configuration
+     - need Server Ex: Tomcat
+       
+  spring initializer -> start.spring.io
+  .war: war archive, need to push .war to Tomcat to run it
+  .jar: it has embedded Tomcat, so no need to install extra Tomcat.
+
+  Dependencies:
+    - choose only the thing you need. Ex: Spring Web, Lombok ....
+    - @RestController, @RequestMapping
+
+-  6
+  
 
