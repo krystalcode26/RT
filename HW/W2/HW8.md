@@ -235,7 +235,7 @@ Notes placeholder — to be filled in based on specific video content from your 
                       -  without Lambok, need to add getter/setter and toString()
           - Model
      - MVC
-          - Model: represents data -> product
+          - Model: represents data -> product.java
           - View
           - Controller
             
@@ -314,4 +314,58 @@ Notes placeholder — to be filled in based on specific video content from your 
              public void deleteProduct(@PathVariable int prodId){
                     service.updeleteProduct(prodId);
              }
+- 17 Spring Data JPA
+     - JDBC (Java Database Connectivity)
+     - ORM (Object Relational Mapping) tool - translate object to database.
+            Ex: Hibernate, Eclipse
+            - each varirable has productId, productName as a column.
+            - each object is one row.
+     - JPA (Java Persistence API)
+           standards for move from different ORM tools
+            
+          - Spring Data JPA : Storing data in service layer in the database
+- 18 Spring Data JPA & H2 Set up
+     - H2
+       - pom.xml:
+         Add dependencies of H2 and Spring Data JPA
+       - application.properties.java
+              - server.port=8085
+              - spring.datasource.url = jdbc:h2:mem:databaseName -> use h2
+              - spring.datasource.driverClassName=org.h2.Driver
+              - spring.jpa.show-sql=true -> show the query
+                   
+              - spring.datasource.username= -> can change username here
+              - spring.datasource.password=
+    
+       
+- 19 Spring Data JPA with JPARepository
+     - Repository layer
+     - create Repository package @Repository
+            - className: create interface as ProductRepo
+            - primary key type <Product, Integer>
+            Ex: public interface ProductRepo extends JpaRepository<Product, Integer>{
+                    
+                 }
+            - Product.java
+                 - add @Entity, @Id for database
+            - ProductService.java
+                 - add @Autowired add field -> ProductRepo repo;
+                 - comments out List<Product> create before cuase use JPA
+                 - public List<Product> getProducts(){
+                         return repo.findAll();
+                   }
+                 - public Product getProductById(int prodId){
+                         return repo.findById(prodId).orElse(new Product());
+                   }
+
+                 - public void addProduct(Product prod){
+                         repo.save(prod);
+                   }
+       
+                 - public void updateProduct(Product prod){
+                         repo.save(prod);
+                   }
+                 - public void deleteProduct(int prodId){
+                         repo.deleteById(prodId);
+                   }
 - 
