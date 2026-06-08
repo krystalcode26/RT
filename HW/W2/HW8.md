@@ -107,6 +107,55 @@ Notes placeholder — to be filled in based on specific video content from your 
     - choose only the thing you need. Ex: Spring Web, Lombok ....
     - @RestController, @RequestMapping
 
--  6
+-  6 Dependency Injection using Spring Boot
+     Spring has its own container inside JVM, which is IOC container (all objects inside it).
+     SpringApplicaton.run() -> create IOC container
+
+     General create NEW object inside JVM to call method.
+     How to get reference to object?
+     
+     ApplicationContext context = SpringApplicaton.run();
+     getBean() get the object you want.
+     use annotation at class level -> @Component
+     But Spring poject use IOC, DI for that.
+   
+-  7 Autowiring - goes by type of class, it will search the type of class
+     Reference to object:
+     Instance variables by default set to null.
+     New keyword
+     use DI
+        - Field Injection
+          add @Component annotation at class level
+          ApplicationContext interface
+
+          add @Autowired at field level
+          @Autowired - connect two classes and get instances
+        - Constructor Injection
+          add @Autowired at constructor level
+          @Autowired - connect two classes and get instances
+
+   Loose couping -> Interfaces
+   If there are multiple objects extend the same interface? One is laptop and one is desktop type of class. Both of them has @Component at class level and
+   @Autowired at main class field level.
+   -> need to add certain annotation. @Primary at class Then Autowiring will goes to this one.
+   -> Or add @Qualifier("laptop") -> Then Autowiring will goes to the class with laptop type.
+-  8 Spring with Boot
+     create new project in IntelliJ and choose Maven Archetype rather than Spring.
+     Archetype: projects structure.
+     Need to add dependency manually and create configuration file.
+        - Add Spring Dependency -> Maven Repository search for spring context and copy dependencies into pom.xml. Remember reload Maven.
+        - Add to main -> ApplicatonContext context = new ClassPathXmlApplicationContext(); -> create container
+        - Add xml configuration -> new ClassPathXmlApplicationContext("spring xml")
+        - create resources folder and create a file spring.xml
+-  9 Spring XML Config
+     Document type definition
+     search for bean configuration on google and add definition to spring.xml.
+   
+     spring.xml:
+     <beans (bean configuratoin.....)>
+          <bean id ="dev" class="com.name.Dev"> </bean>
+     </beans>
+     
+-  10 Constructor and Setter Injection
   
 
