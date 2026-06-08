@@ -145,17 +145,60 @@ Notes placeholder — to be filled in based on specific video content from your 
      - Need to add dependency manually and create configuration file.
         - Add Spring Dependency -> Maven Repository search for spring context and copy dependencies into pom.xml. Remember reload Maven.
         - Add to main -> ApplicatonContext context = new ClassPathXmlApplicationContext(); -> create container
-        - Add xml configuration -> new ClassPathXmlApplicationContext("spring xml")
+          Add xml configuration -> new ClassPathXmlApplicationContext("spring xml")
+          Ex: ApplicatonContext context = new ClassPathXmlApplicationContext("spring xml");
+              Dev obj  = (Dev) context.getBean("dev)
+              obj.build() -> call the build() in Dev.java
         - create resources folder and create a file spring.xml
+          
 -  9 Spring XML Config
      - Document type definition
      - search for bean configuration on google and add definition to spring.xml.
    
      - spring.xml:
-     <beans (bean configuratoin.....)>
-          <bean id ="dev" class="com.name.Dev"> </bean>
-     </beans>
+          <beans (bean configuratoin.....)>
+               <bean id ="dev" class="com.name.Dev"> </bean>
+               <bean id ="lap1" class="com.name.Laptop"> </bean>
+          </beans>
      
--  10 Constructor and Setter Injection
-  
+-  10 Constructor and Setter Injection in Spring
+      Setter injection:
+      spring.xml: set <property> inside <bean> Ex: <property name = "age" value = "18" />
+      setter, getter in Dev.java
 
+      For object laptop
+        - spring.xml: specify property for laptop in spring.xml inside <bean></bean>
+          Ex: <property name="laptop" ref="lap1" />
+        - setter, getter of laptop in Dev.java
+
+      Constructor injection:
+      spring.cml" set <constructor> inside <bean> Ex: <constructor-arg value="14" />
+      set constructor in Dev.java
+
+       for object laptop
+        - spring.xml: specify property for laptop in spring.xml inside <bean></bean>
+          Ex: <constructor-arg ref="lap1" />
+        - set constructor of laptop in Dev.java
+
+       
+- 11 Autowire in Spring
+     Multiple objects implements the same interface
+     Ex: Class laptop, desktop implements Computer interface
+  
+     - spring.xml: specify property for laptop in spring.xml inside <bean></bean>
+          use autowire byName/byType
+          Ex: <bean id ="dev" class="com.name.Dev" autowire="byName/byType"> </bean>
+              <bean id="lap1" class="com.name.Laptop"> </bean>
+              <bean id="desk" class="com.name.Desktop"> </bean>
+
+              if id use similar, you can add primary as the one you want to refer
+              <bean id="com" class="com.name.Laptop" primary="true"> </bean>
+              <bean id="com1" class="com.name.Desktop"> </bean>
+
+              - byType in spring.xml
+              Ex: <bean id ="dev" class="com.name.Dev" autowire="byType"> </bean>
+              if use byType in App.java -> main function
+              use Dev.class, so it refers to the type Dev
+              Dev odj = context.getBean(Dev.class)
+          
+- 12
