@@ -140,18 +140,18 @@ Notes placeholder — to be filled in based on specific video content from your 
    -> need to add certain annotation. @Primary at class Then Autowiring will goes to this one.
    -> Or add @Qualifier("laptop") -> Then Autowiring will goes to the class with laptop type.
 -  8 Spring with Boot
-     create new project in IntelliJ and choose Maven Archetype rather than Spring.
-     Archetype: projects structure.
-     Need to add dependency manually and create configuration file.
+     - create new project in IntelliJ and choose Maven Archetype rather than Spring.
+     - Archetype: projects structure.
+     - Need to add dependency manually and create configuration file.
         - Add Spring Dependency -> Maven Repository search for spring context and copy dependencies into pom.xml. Remember reload Maven.
         - Add to main -> ApplicatonContext context = new ClassPathXmlApplicationContext(); -> create container
         - Add xml configuration -> new ClassPathXmlApplicationContext("spring xml")
         - create resources folder and create a file spring.xml
 -  9 Spring XML Config
-     Document type definition
-     search for bean configuration on google and add definition to spring.xml.
+     - Document type definition
+     - search for bean configuration on google and add definition to spring.xml.
    
-     spring.xml:
+     - spring.xml:
      <beans (bean configuratoin.....)>
           <bean id ="dev" class="com.name.Dev"> </bean>
      </beans>
