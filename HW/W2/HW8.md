@@ -182,7 +182,7 @@ Notes placeholder — to be filled in based on specific video content from your 
 
        
 - 11 Autowire in Spring
-     Multiple objects implements the same interface
+     -> Multiple objects implements the same interface
      Ex: Class laptop, desktop implements Computer interface
   
      - spring.xml: specify property for laptop in spring.xml inside <bean></bean>
@@ -201,4 +201,117 @@ Notes placeholder — to be filled in based on specific video content from your 
               use Dev.class, so it refers to the type Dev
               Dev odj = context.getBean(Dev.class)
           
-- 12
+- 12 Spring Boot MVC
+     Spring Boot no need to configuration at spring.xml
+     Only need annotation
+     Spring use servlets (Spring - create .war file put int Tomcat) run on Tomcat in the web container
+  
+- 13 Spring Boot Web
+        Json XML data -> which stands for JavaScript object motation
+        Controller.java
+        @RestController - Controller to specify
+        @RequestMapping("/") - request from homepage
+  
+- 14 Spring MVC and Layers
+     ProductController accepts request and return the object
+     Prodcut -> use Lombok library create behind the scene rather than need al private fields
+                 add @Data so can refer to it
+     Lombok add dependencies to pom.xml
+     - Different layer should use different packages.
+          - Controller
+                 - ProductController.java
+                      - @Autowired: get products from service -> ProductService service;
+                      - RequestMapping: map to the request
+          - Service
+                 - ProductService.java
+                      - @Service
+                           - create list of products ->
+                           List<Product> products = new ArrayList<>(
+                                Arrays.asList(new Product(101,"Iphone",10000)));
+                           Arrays.asList is immutable so need new ArrayList<>() to wrap it up
+                 - Product.java 
+                      -  @Component
+                      -  @AllArgsConstructor - create product for me
+                      -  without Lambok, need to add getter/setter and toString()
+          - Model
+     - MVC
+          - Model: represents data -> product
+          - View
+          - Controller
+            
+- 15 Http GET, POST
+     RESTapi uses protocol called HTTP
+     CRUD: create/read/update/delete
+     Tools: Postman
+     HTTP status code 1xx-5xx
+
+     - GET one product
+           - ProductService.java
+             use Stream API
+             public Product getProductById(int proId){
+                 return products.stream()
+                      .filter(p-> p.getProdId() == prodId)
+                      .findFirst().get();
+             }
+             - orElse() for null product
+                 Ex: return products.stream()
+                      .filter(p-> p.getProdId() == prodId)
+                      .findFirst().orElse(new Product(100, "no item",0));
+       
+       
+           - ProductController.java
+             @GetMapping("/product/{prodId}")
+             public Prodcut getProductById(@PathVariable int prodId){
+                    return service.getProductById(prodId);
+             }
+     - POST product
+           - ProductService.java
+            public void addProduct(Product prod){
+                products.add(prod);
+            }
+       
+           - ProductController.java
+             @PostMapping("/products")
+             public void addProduct(@RequestBody Product prod){
+                    service.addProduct(prod);
+             }
+            
+- 16 Http PUT, DELETE
+     - PUT
+            - ProductService.java
+            public void updateProduct(Product prod){
+                 //find the id of new product for updating product list
+                 int index = 0;
+                 for(int i=0;i<products.size();i++){
+                    if(products.get(i).getProdId() == prod.getProdId()){
+                         index = i;
+                    }
+                 }
+                 products.set(index, prod);
+            }
+       
+            - ProductController.java
+             @PutMapping("/products")
+             public void updateProduct(@RequestBody Product prod){
+                    service.updateProduct(prod);
+             }
+ 
+     - Delete
+            - ProductService.java
+            public void deleteProduct(int prodId){
+                 //find the id of the product to remove from product list
+                 int index = 0;
+                 for(int i=0;i<products.size();i++){
+                    if(products.get(i).getProdId() == prodId()){
+                         index = i;
+                    }
+                 }
+                 products.remove(index;
+            }
+       
+            - ProductController.java
+             @DeleteMapping("/products/{prodId}")
+             public void deleteProduct(@PathVariable int prodId){
+                    service.updeleteProduct(prodId);
+             }
+- 
