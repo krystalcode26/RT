@@ -23,7 +23,7 @@ o	Field injection injects directly into the field using @Autowired.
 Ex: if OrderService needs PaymentService, Spring creates PaymentService and hands it to OrderService automatically. This means your classes never need to know how their dependencies are created.
  
 #### e. Demo Code to show what is Dependency Injection (give screenshot).
-When CarService needs EngineService, you simply declare it as a constructor parameter and Spring automatically creates and injects it at startup. You never call new EngineService() yourself — the IoC container handles it. This is the core idea of DI in action: declare what you need, and Spring delivers it.
+![1](images/Demo.jpeg)
  
 #### f. Types of Dependency Injection 
 There are three ways Spring can inject dependencies. All three achieve the same result but differ in how and when the dependency is provided.
