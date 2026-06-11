@@ -34,4 +34,4 @@ I — Interface Segregation Principle (ISP) use small and focused interfaces ins
 D — Dependency Inversion Principle (DIP) high-level modules should depend on abstractions rather than concrete implementations.
 
 
-
+S3: https://rt-bucket06.s3.us-east-2.amazonaws.com/June10.mp4
