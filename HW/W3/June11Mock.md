@@ -1,3 +1,5 @@
+### check HW12 NOTES and VIDEO
+
 1. what spring boot version you used
  (2.0/3.0) -> 
 java version compatability 
