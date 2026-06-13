@@ -1,5 +1,6 @@
 ### introduce what is Spring Framework
-Spring is a comprehensive, open-source Java application framework centered on Dependency Injection (IoC) and Aspect-Oriented Programming, designed to make enterprise Java development simpler and more testable. 
+Spring is a comprehensive, open-source Java application framework centered on DI (IoC) and AOP, designed to make enterprise Java development simpler and more testable. 
+
 It provides a rich ecosystem of modules — Spring MVC for web, Spring Data for persistence, Spring Security for auth — all built on a common core container. Its philosophy is to keep your business code POJO-based and let the framework handle infrastructure concerns through configuration and convention.
 
 ### What Spring Version Did You Use?
