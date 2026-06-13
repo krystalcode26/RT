@@ -5,39 +5,58 @@ It provides a rich ecosystem of modules — Spring MVC for web, Spring Data for 
 ### What Spring Version Did You Use?
 You can choose SpringBoot 2 or SpringBoot 3.I have mainly used Spring Boot 3.x in my recent projects. Spring Boot 3 requires Java 17 or later, and it is based on Spring Framework 6.
 The major change in Spring 6 was the Jakarta EE namespace migration and the requirement for Java 17. I track Spring's release cadence and typically stay on the latest supported minor version.
+
 ### How Do You Define a Profile?
 You define a profile using the @Profile("profileName") annotation on a @Component, @Bean, or @Configuration class, so it only loads when that profile is active. 
 For properties, you create files like application-dev.yml or application-prod.yml — Spring automatically picks them up based on the active profile. You can also use @ActiveProfiles in tests to specify which profile to load during testing.
+
 ### 29. What Discovery Service Implementation Have You Used?
 I've primarily used Netflix Eureka via Spring Cloud Netflix, where each microservice registers itself on startup and sends heartbeats to stay listed. I
 I've also worked with Consul, which adds health checking and key-value store capabilities beyond basic discovery. In Kubernetes environments, I've relied on native K8s service discovery with Kubernetes DNS, reducing the need for a separate Eureka cluster.
+
 ### What is AOP?
 Aspect-Oriented Programming is a cross-cutting concerns — behaviors that span multiple classes (logging, security, transactions, caching) — into reusable "aspects" instead of duplicating logic everywhere. 
 In Spring, an aspect is a class annotated with @Aspect containing advice methods that execute at defined joinpoints (method executions matched by pointcut expressions). 
 Spring AOP is proxy-based and works at the method level; for field-level interception you'd need full AspectJ weaving.
+
 ### How to Write Spring Boot to Call from Frontend to Backend and Save Data to Database?
-Three layer
+
+Three layer Controller, Service, and Repository.
+
 The frontend calls a REST endpoint via HTTP (e.g., POST /api/users) with a JSON body; 
-the @RestController receives it, deserializes it into a DTO, and calls a @Service method. 
-The service performs business logic, maps the DTO to a JPA @Entity, and calls the @Repository (a JpaRepository) to persist it to the database. 
+
+@RestController receives it, deserializes it into a DTO, and calls a @Service method. 
+
+@Service performs business logic, maps the DTO to a JPA @Entity, and calls the @Repository (a JpaRepository) to persist it to the database. 
+
 The controller then returns a ResponseEntity with the saved object and a 201 Created status back to the frontend.
+
 ### Desrible Spring MVC
 
-Spring MVC is a web framework built on the front-controller pattern
-DispatcherServlet receives all requests and routes them to @Controller classes based on @RequestMapping definitions. 
-The controller processes the request (usually delegating to a service), populates a model, and returns a view name for traditional MVC or returns JSON data (for REST) directly serializes the response body. 
+Spring MVC is a web framework built on the front-controller pattern.
+
+DispatcherServlet receives all requests and routes them to @Controller classes based on @RequestMapping definitions.
+
+The controller processes the request (usually delegating to a service), populates a model, and returns a view name for traditional MVC or 
+
+returns JSON data (for REST) directly serializes the response body. 
+
 Key components: HandlerMapping, HandlerAdapter, ViewResolver, HttpMessageConverter, and ModelAndView.
 
-
 ### How Do You Validate Input Data in Spring Boot?
-Validation rule on model/dto/entity
-I annotate DTO fields with Bean Validation constraints (@NotNull, @Size(min=2, max=50), @Email, @Pattern) 
+
+Validation rule on model/dto/entity.
+
+I annotate DTO fields with Bean Validation constraints (@NotNull, @Size, @Email, @Pattern) 
 add @Valid to the controller method parameter. 
+
 Spring automatically validates the incoming request body before the method executes and throws MethodArgumentNotValidException if constraints are violated. I catch that in my @RestControllerAdvice and return a 400 response listing each field error with its message.
 
 ### What is Spring Boot Actuator?
 Spring Boot Actuator exposes production-ready endpoints for monitoring and managing status — health checks, metrics, environment info, thread dumps, HTTP trace, and more. 
+
 It integrates with monitoring systems like Prometheus(time series database) and Grafana(visual) through Micrometer, enabling real-time observability. 
+
 Common endpoints include /actuator/health, /actuator/metrics, /actuator/info, and /actuator/env.
 
 First Import dependencies
@@ -48,9 +67,13 @@ External users - Azure account/ clod resources, don’t have internal access lev
 
 ### How Does Spring MVC Work?
 HTTP request hits DispatcherServlet. 
+
 HandlerMapping identifies the correct controller method. 3. 
+
 HandlerAdapter invokes the method, resolving parameters (@RequestBody, @PathVariable). The method returns a ResponseEntity or object. 
+
 HttpMessageConverter (Jackson) serializes it to JSON and writes to the response. 
+
 For view-based apps, ViewResolver maps a view name to a template (Thymeleaf), renders HTML, and writes it to the response.
 
 ### What is a Controller, How Do You Use It, and How Do You Implement It?
