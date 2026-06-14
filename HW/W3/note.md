@@ -2,7 +2,9 @@
 
 Spring is a comprehensive, open-source Java application framework using IOC, DI, and AOP to make enterprise Java development simpler. 
 
-It provides different modules — Spring MVC for web, Spring Data for persistence, Spring Security for auth and all sharing IOC container. It's mainly for user to keep working on business logic and let Spring handle infrastructure through configuration and convention. This makes applications easier to test, maintain, and evolve.
+It provides different modules — Spring MVC for web, Spring Data for persistence, Spring Security for auth and all sharing IOC container. 
+
+It's mainly for user to keep working on business logic and let Spring handle infrastructure through configuration and convention. This makes applications easier to test, maintain, and evolve.
 
 ### What Spring Version Did You Use?
 
@@ -92,29 +94,47 @@ External teams like cloud platform or DevOps can monitor application health with
 
 
 ### How Does Spring MVC Work?
+Spring MVC is a web framework built on the front-controller pattern.
+DispatcherServlet is a entry point for all HTTP requests.
 
 HTTP request hits DispatcherServlet. 
 
-HandlerMapping identifies the correct controller method 3. 
+HandlerMapping identifies the correct controller. 
+HandlerAdapter invokes the method, resolving parameters (@RequestBody, @PathVariable). 
 
-HandlerAdapter invokes the method, resolving parameters (@RequestBody, @PathVariable). The method returns a ResponseEntity or object. 
+The controller processes the request (usually delegating to a service), populates a model.
 
-HttpMessageConverter (Jackson) serializes it to JSON and writes to the response. 
-
-For view-based apps, ViewResolver maps a view name to a template (Thymeleaf), renders HTML, and writes it to the response.
+For REST APIs, HttpMessageConverter (Jackson) serializes it to JSON and writes to the response. 
+For MVC, ViewResolver maps a view name to a template and renders the response as HTML templates.
 
 ### What is a Controller, How Do You Use It, and How Do You Implement It?
 
 A @Controller (or @RestController for APIs) is the web layer component that maps HTTP requests to Java methods via @RequestMapping/@GetMapping/@PostMapping etc. 
 
-It receives request data via @RequestBody, @PathVariable, and @RequestParam, delegates to the service layer, and returns a response. 
+A @RestController combines @Controller and @ResponseBody so every method return value is written directly to the response body. 
 
+Then inject the service layer via constructor injection, then use @RequestBody to deserialize the incoming JSON, 
+@PathVariable for URL segments, and @RequestParam for query parameters. 
 
-Implementation: annotate a class with @RestController, define methods with HTTP method annotations, inject services via constructor, and return response objects or ResponseEntity<T>.
+The method delegates business logic to the service and returns either a plain object (auto-serialized to JSON) or a ResponseEntity when I need explicit control over the HTTP status and headers.
+
+A @Controller (or @RestController for APIs) is the web layer component that maps HTTP requests to Java methods via @RequestMapping/@GetMapping/@PostMapping etc. 
 
 ### What is WebFlux?
-Spring WebFlux is Spring's async, reactive, non-blocking web framework built on Project Reactor, designed for high-concurrency scenarios with fewer threads. 
+Spring WebFlux is Spring's async, reactive, non-blocking web framework built on Project Reactor, 
+designed for high-concurrency scenarios where the traditional one-thread-per-request (Servlet) model would waste resources. 
 
+Instead of blocking a thread while waiting for I/O, it uses event-driven processing with two types
+- Mono for a single async result
+- Flux for a stream of results.
+
+It's ideal for microservices that call many downstream APIs or handle streaming data, 
+since a small number of threads can serve a large number of concurrent requests. 
+
+With Java 21, virtual threads offer a simpler alternative for many blocking workloads,
+WebFlux remains the better fit when need full reactive backpressure or true streaming.
+
+---------------------
 Two styles 
 -	Servlet(sync thread per request tomcat 6,7,9,10 -> Tomcat supports async)
 -	Reactor Library(Cannel, Group, workGroup)2020-2022 in parallel/debug/ WebFlux(Mono(Single object), Flux a group of objects) -> Java 21 -> Virtual
@@ -122,13 +142,26 @@ Instead of the traditional Servlet-based model, it uses Mono (0–1 item) and Fl
 It's ideal for microservices that call many downstream APIs or handle streaming data, where blocking I/O would waste threads.
 
 ### How Do You Connect the Database in Spring Boot?
-1. import appropriate starter (spring-boot-starter-data-jpa) and the JDBC driver dependency. 
-2. Configure the datasource in properties / application.yml: spring.datasource.url, username, password, and spring.jpa.hibernate.ddl-auto. (conncetion pool size, connection timeout)
-Another way: @Configuration + @Bean
-@Value (application name)? 
-3. configure data source - Spring Boot auto-configures the DataSource, EntityManagerFactory, and TransactionManager — you just define @Entity classes and @Repository interfaces extending JpaRepository.
+
+I add spring-boot-starter-data-jpa and the appropriate JDBC driver to the Maven/Gradle dependencies, 
+then configure the datasource in properties / application.yml 
+with spring.datasource.url, username, password, and spring.jpa.hibernate.ddl-auto. 
+
+Spring Boot auto-configures the DataSource, EntityManagerFactory, and TransactionManager, 
+I only need to define @Entity classes and @Repository interfaces extending JpaRepository. 
+
+I also tune the connection pool with settings like pool size and connection timeout to match the expected load.
+
 
 ### How Do You Handle Global Exceptions in Spring Boot?
+
+I create a @RestControllerAdvice class that centralizes all exception handling in one place rather than duplicating try-catch blocks across controllers. 
+
+Each @ExceptionHandler method maps a specific exception type — like MethodArgumentNotValidException or EntityNotFoundException — to a structured error response with an appropriate HTTP status code. 
+
+This keeps every controller clean and guarantees a consistent error response format across the whole API. 
+
+I also log exceptions at the appropriate severity level and avoid leaking internal stack traces to clients.
 
 I use @RestControllerAdvice combined with @ExceptionHandler methods to centralize all exception handling in one class rather than duplicating try-catch blocks across controllers. 
 
@@ -137,46 +170,65 @@ Each handler method maps a specific exception type to a structured error respons
 This keeps controllers clean and ensures consistent error response formats across the entire API.
 
 ### Spring Boot Annotations
-@SpringBootApplication (combines @Configuration, @EnableAutoConfiguration, @ComponentScan), 
 
-Class level: @RestController, @Service, @Repository, @Component, @Autowired, @Value, @Bean, @Configuration. 
+@SpringBootApplication is the entry-point annotation that combines @Configuration, @EnableAutoConfiguration, and @ComponentScan, bootstrapping the entire application with a single declaration. 
 
-Web-specific: @RequestMapping, @GetMapping, @PostMapping, @PathVariable, @RequestBody, @ResponseStatus. 
+At the class level, @RestController, @Service, @Repository, and @Component mark beans for component scanning,
+while @Configuration and @Bean define explicit bean factories. 
 
-Testing: @SpringBootTest, @MockBean, @DataJpaTest, @WebMvcTest.
+Web-specific annotations like @RequestMapping, @GetMapping, @PathVariable, and @RequestBody handle request routing and binding.
+
+For testing, @SpringBootTest loads the full context, @WebMvcTest isolates the web layer, @DataJpaTest isolates persistence, and @MockBean injects test doubles.
 
 
 ### How Does Spring IoC Work — Annotations, Injection, and Bean Types?
-The IoC (Inversion of Control) container manages object creation and lifecycle — you declare beans and the container injects dependencies rather than you instantiating them manually. 
-Key annotations: @Component, @Service, @Repository, @Controller mark classes as beans; @Bean defines beans in @Configuration classes; @Autowired, @Inject, and constructor injection wire dependencies. 
-Dependency injection includes constructor injection, field injection, setter injection.
-In general, we choose constructor injection more maintainable and prevents nullPointerException because it can instantiate at boot up time
-Bean types include singleton (default and use for), prototype (create a new bean for each request), request(created for each new request), session(each of the independent application context), application, and websocket scopes)
-1.	reading metadata(@SpringbootApplication(exclude=”com”))
-2.	bean instantiation @lazy
-3.	annotation integrated 
-4.	life cycle -> container circular @Lazy
+
+The IoC (Inversion of Control) container manages object creation and lifecycle,
+it reads class-level metadata (via @ComponentScanning or use @Bean in @Configuration) at startup, 
+instantiates all beans in the correct order, and injects their dependencies rather than use NEW keyword. 
+
+Beans Types are registered by type and optionally by name, and the container resolves constructor or field injection automatically. 
+constructor injection more testable and prevents nullPointerException cause it can instantiate at boot up time.
+Setter injection is useful for optional.
+Field injection (@Autowired on a field) is convenient but the downside is it hides dependencies and requires reflection to test.
+
+The default scope is singleton, meaning one shared instance per application context; other scopes like prototype(create a new bean for each request), request(created for each new request), and session(each of the independent application context) create new instances with different lifetimes. 
+
+The container also manages lifecycle callbacks and can handle circular dependencies with @Lazy if truly unavoidable.
+
 
 ### 54. How Many Ways to Inject a Bean and Which Is Most Used?
+
 Three ways: constructor, setter, and field injection. 
-Constructor injection is most widely used in modern Spring development because it enforces immutability, makes dependencies explicit, and simplifies unit testing (no Spring context needed — just call new MyService(mockDep)). 
-Field injection (@Autowired on a field) is convenient but considered an antipattern because it hides dependencies and requires reflection to test.
+
+Constructor injection is most widely used in modern Spring development because it enforces immutability, makes dependencies explicit, and simplifies unit testing (no Spring context needed — just call new MyService(mockDep).
+
+Setter injection is useful for optional
+
+Field injection (@Autowired on a field) is convenient but the downside is it hides dependencies and requires reflection to test.
 
 ### By-Name vs. By-Type
-By-type (@Autowired) resolves the dependency by matching the declared type — it fails if there are multiple beans of the same type without a qualifier. 
-By-name (@Qualifier or @Resource) resolves by the bean's registered name, which is more explicit and avoids ambiguity when you have multiple implementations of the same interface. 
-Best practice is to rely on by-type for single implementations and add @Qualifier only when there are multiple candidates.
+
+By-type (@Autowired) matching the declared type of dependency.
+If there are multiple beans of the same type use by-name to resolve it. 
+
+By-name (@Qualifier or @Resource) check bean's registered name to avoid ambiguity when you have multiple implementations of the same interface. 
+
+Use case: rely on by-type for single implementations and add @Qualifier only when there are multiple candidates. Also can use @Primary to declare as a primary bean.
 
 ###  Why Constructor Injection?
+
 Constructor injection makes dependencies explicit, immutable (can be final), and guarantees the object is fully initialized prevent a NullPointerException from a missing dependency. 
+
 It also makes unit testing easy since you can pass mock objects directly through the constructor without needing a Spring context. 
 Spring recommends constructor injection, and Lombok's @RequiredArgsConstructor can auto-generate it with zero boilerplate.
 
-### 27. What Java Version Can We Use with Spring Boot 3?
-Spring Boot 3.x requires a minimum of Java 17 (the latest LTS at the time of release) and supports Java 21 fully, including virtual threads via Project Loom. 
+### What Java Version Can We Use with Spring Boot 3?
+Spring Boot 3.x requires a minimum of Java 17 (the latest LTS at the time of release) and support update versions.
+Using Java 17+ also unlocks language features like records, sealed classes, and pattern matching that pair well with Spring Boot 3.
 
 Java 21's virtual threads can be enabled in Spring Boot 3.2+ with spring.threads.virtual.enabled=true to boost throughput for blocking workloads without switching to reactive. 
-Using Java 17+ also unlocks language features like records, sealed classes, and pattern matching that pair well with Spring Boot 3 idioms.
+
 
 ### What is DispatcherServlet?
 DispatcherServlet is the entry point of Spring MVC for all HTTP requests, 
