@@ -6,6 +6,22 @@ It provides different modules — Spring MVC for web, Spring Data for persistenc
 
 It's mainly for user to keep working on business logic and let Spring handle infrastructure through configuration and convention. This makes applications easier to test, maintain, and evolve.
 
+I've worked with Spring annotations across IoC, dependency injection, AOP, REST API design and validation.
+
+@SpringBootApplication as the entry point, it includes @EnableAutoConfiguration, @Configuration, and @ComponentScan. It uses @RestController, @Controller for controller layer, @Service for service layer, and @Repository for DAO layer. If a class does not clearly belong to controller, service, or repository, I can use @Component.
+
+After find classes annotation, it register them as beans across layers and handling third-party objects through @Configuration and @Bean. @Configuration on the configuration class and @Bean on the method to register the bean into the Spring container.
+
+For bean scopes, I can use @Scope. Common scopes include singleton, prototype, request, session, and application. The default scope is singleton.
+
+For dependency injection, I prefer constructor injection over setter or field injection since it makes dependencies explicit and avoid null pointer exceptions, and I use @Autowired to wire them, with @Qualifier and @Primary to resolve conflicts when multiple candidates exist.
+
+On the AOP and exception handling side, I use @Aspect with @Pointcut and advice annotations like @Before, @After, @AfterReturning, @AfterThrowing, and @Around to intercept execution at different points and @RestControllerAdvice with @ExceptionHandler for centralized error handling.
+
+For REST API design, I use @RequestMapping at the class level and @GetMapping, @PostMapping, @PutMapping, @DeleteMapping at the method level, pulling request data with @RequestParam, @PathVariable, @RequestHeader,and @RequestBody.
+
+Finally, for validation I trigger it with @Valid on request bodies and define constraints directly on fields using @NotNull, @NotBlank, and @Size.
+
 ### What Spring Version Did You Use?
 
 User can choose SpringBoot 2 or 3. I  mainly use Spring Boot 3.x and it's minimum require is Java 17 or later version, and it is based on Spring Framework 6.
@@ -117,8 +133,6 @@ Then inject the service layer via constructor injection, then use @RequestBody t
 @PathVariable for URL segments, and @RequestParam for query parameters. 
 
 The method delegates business logic to the service and returns either a plain object (auto-serialized to JSON) or a ResponseEntity when I need explicit control over the HTTP status and headers.
-
-A @Controller (or @RestController for APIs) is the web layer component that maps HTTP requests to Java methods via @RequestMapping/@GetMapping/@PostMapping etc. 
 
 ### What is WebFlux?
 Spring WebFlux is Spring's async, reactive, non-blocking web framework built on Project Reactor, 
