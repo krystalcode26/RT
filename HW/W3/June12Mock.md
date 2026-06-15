@@ -259,3 +259,4 @@ In Spring Boot, it's auto-configured and registered without any XML.
 
 
 ### S3
+https://rt-bucket06.s3.us-east-2.amazonaws.com/260612.mp4
