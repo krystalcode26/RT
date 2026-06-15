@@ -1,0 +1,271 @@
+1. JVM GC Parameters & JVM Tuning
+
+Common JVM Parameters
+-Xms   # Initial heap size
+-Xmx   # Maximum heap size
+-Xlog  # GC and JVM logging (Java 9+)
+-XX    # Advanced JVM options
+
+Examples:
+
+-XX:+UseZGC
+-XX:+UseG1GC
+JVM Tuning Process
+
+Don't immediately change parameters.
+
+Identify the bottleneck
+Collect logs/metrics
+Analyze:
+Heap usage
+GC frequency
+CPU usage
+Metaspace usage
+Tune:
+Heap size
+Metaspace
+GC type
+JVM parameters
+
+Tools: JDK Mission Control,VisualVM,Grafana,Prometheus
+
+2. Java 17 Features
+Sealed Classes
+public sealed class Animal
+    permits Dog, Cat {}
+
+Records
+public record User(String name, int age) {}
+
+Pattern Matching
+Switch Pattern Matching
+Spring Boot Connection
+Spring Boot 3.x requires Java 17+.
+
+3. Singleton Design Pattern
+Common Uses: Logger, Connection Pool, Thread Pool, Configuration Cache, Lookup Tables, Spring Note
+
+Singleton Design Pattern
+
+public class Singleton {
+    private static final Singleton INSTANCE = new Singleton();
+}
+
+vs
+
+Spring Singleton Scope
+@Service
+Default Spring bean scope is singleton, but that is not the same thing as implementing the Singleton design pattern.
+
+4. Stream API Interview Question
+Filter people younger than 30
+List<Person> result =
+    people.stream()
+          .filter(p -> p.getAge() < 30)
+          .collect(Collectors.toList());
+Important Point
+
+filter() requires a:
+
+Predicate<T>
+
+Predicate: Takes one input, Returns boolean
+
+5. RESTful API Design (Very Important)
+CRUD Mapping
+
+Operation	HTTP Method
+Read	GET
+Create	POST
+Update	PUT/PATCH
+Delete	DELETE
+URL Design
+
+Good:
+/users
+/users/1
+/orders/100
+
+Bad:
+/getUsers
+/createUser
+/deleteOrder
+
+Never put verbs in URLs.
+
+Consider
+Path Variables
+Query Parameters
+Request Body
+Headers
+Response Body
+
+HTTP Status Codes
+1xx	Informational
+2xx	Success
+3xx	Redirect
+4xx	Client Error
+5xx	Server Error
+
+6. SOLID Principles
+S - Single Responsibility Principle. One class → one reason to change.
+O - Open/Closed Principle. Open for extension, closed for modification.
+L - Liskov Substitution Principle. Subclass should replace parent without breaking behavior.
+I - Interface Segregation Principle. Small focused interfaces.
+D - Dependency Inversion Principle. Depend on abstractions, not concrete classes.
+
+Spring IoC is a good example of DIP.
+
+7. Custom Class as HashMap Key
+Must override: equals() and hashCode()
+
+Example:
+class Employee {
+    private Long id;
+
+    @Override
+    public boolean equals(Object o) { }
+
+    @Override
+    public int hashCode() { }
+}
+
+Why? HashMap uses hashCode(), equals() to find keys correctly.
+
+8. AOP Important Interview Points
+Core Concepts
+Aspect, Join Point, Pointcut
+Advice (@Before, @After, @AfterReturning, @AfterThrowing, @Around)
+
+9. Why AOP Doesn't Work for Internal Method Calls
+Problem
+@Service
+class UserService {
+
+    public void methodA() {
+        methodB();   // AOP won't trigger
+    }
+
+    @LogExecution
+    public void methodB() {}
+}
+
+Why? Spring AOP uses Proxy Objects.
+
+Internal calls:
+this.methodB(); -- bypass the proxy.
+
+Solution 1 (Recommended) - Move logic to another bean.
+
+@Service
+class ValidatorService {}
+
+@Service
+class UserService {
+    @Autowired
+    ValidatorService validator;
+}
+
+Solution 2 - Self Injection
+@Autowired
+@Lazy
+private UserService self;
+
+Then:
+self.methodB();
+
+10. Spring Boot Monitoring Stack
+Actuator - Collects metrics.
+Dependency: spring-boot-starter-actuator
+
+Examples:
+/actuator/health
+/actuator/metrics
+Prometheus - Stores metrics. Time-series database.
+Grafana - Visualizes metrics.
+
+Shows:
+Heap usage
+CPU
+GC activity
+Request count
+Latency
+
+Interview Answer
+Actuator collects metrics.
+Prometheus stores metrics.
+Grafana visualizes metrics.
+
+11. Registering Spring Beans
+Class-Level @Component @Service @Repository @Controller @RestController
+Method-Level
+
+For third-party classes:
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public DataSource dataSource() {
+        return new DataSource();
+    }
+}
+
+Use @Bean when you cannot modify source code.
+
+12. Validation (Very Important)
+
+DTO:
+@NotBlank
+@Size(min=2,max=50)
+private String firstName;
+
+@Email
+private String email;
+
+Controller:
+
+@PostMapping
+public ResponseEntity<?> save(
+    @Valid @RequestBody UserDto dto) {
+}
+
+Invalid data returns: 400 Bad Request
+
+13. Spring MVC Flow
+Client
+   ↓
+Tomcat
+   ↓
+DispatcherServlet
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Repository
+   ↓
+Database
+
+Response returns through the same path.
+
+DispatcherServlet
+
+Acts as the Front Controller.
+
+Routes requests to the correct controller.
+
+14. Spring Framework vs Spring Boot
+Spring Framework
+XML configuration
+Manual bean wiring
+Manual Tomcat deployment
+More boilerplate
+
+Spring Boot
+Starter dependencies
+Auto Configuration
+Embedded Tomcat
+Actuator
+Annotation-based configuration
+Main Annotation - @SpringBootApplication (Contains: @Configuration @ComponentScan @EnableAutoConfiguration)
