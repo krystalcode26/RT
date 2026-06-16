@@ -96,3 +96,4 @@ Ex: if Spring Boot detects Spring MVC, it auto-configures DispatcherServlet;
  We can exclude unwanted auto-configuration using exclude in @SpringBootApplication.
 
 ### S3
+https://rt-bucket06.s3.us-east-2.amazonaws.com/2026-06-15.mp4
