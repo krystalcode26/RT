@@ -49,4 +49,4 @@ Common collectors include G1 (default), ZGC, and Parallel GC.
 How to configure
 I configure the GC type via JVM args at deployment time, for example -XX:+UseZGC or -XX:+UseG1GC. This is typically a one-time configuration written into your deployment script — developers don't need to touch it again unless switching platforms.
 
-### S3
+#### S3
