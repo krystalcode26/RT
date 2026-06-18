@@ -33,10 +33,20 @@ Injection types in Spring are constructor injection (recommended), setter inject
 
 ### Have you used PATCH
 PUT replaces the entire resource, PATCH only updates the specific fields that changed.
+PUT — idempotent
 
-### What do you analyze for GC when you use JProfile? (pattern/pause)
+Every time you send the same PUT request, it replaces the entire row with the exact same data. The result is always the same regardless of how many times you call it.
+PATCH — not guaranteed idempotent
+
+PATCH only updates specific fields, so the result depends on the current state of the data. For example, if PATCH increments a counter or appends to a list, calling it multiple times produces different results each time.
+
 
 ### Garbage Collector 
 automatically frees memory from objects no longer in use. 
 The JVM runs it in the background so you never manage memory manually. 
 Common collectors include G1 (default), ZGC, and Parallel GC.
+
+How to configure
+I configure the GC type via JVM args at deployment time, for example -XX:+UseZGC or -XX:+UseG1GC. This is typically a one-time configuration written into your deployment script — developers don't need to touch it again unless switching platforms.
+
+### S3
