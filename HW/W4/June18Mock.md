@@ -52,8 +52,6 @@ Request Scope: One bean instance per HTTP request.
 Session Scope:One bean instance per user session.
 Application Scope:One bean instance shared across the entire web application.
 
-### What is consumer?
-
 ### how Spring IOC work , all annotations and injection and bean types?
 Spring Framework provides IoC and AOP to simplify enterprise application development. 
 IoC manages object creation and dependency injection, while AOP handles cross-cutting concerns such as logging, auditing, and transaction management.
@@ -66,3 +64,5 @@ Spring supports constructor, setter, and field injection. Constructor injection 
 Bean scopes include singleton, prototype, request, session, and application. Singleton is the default scope and creates a single bean instance for the entire Spring container.
 
 ### S3
+
+https://rt-bucket06.s3.us-east-2.amazonaws.com/20260618+.mp4
