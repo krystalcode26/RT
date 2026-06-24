@@ -1,6 +1,7 @@
 Solution for distributed transactions has two approaches:
 - Two-Phase Commit (2PC)
 2PC introduces a dedicated coordinator service that manages the entire transaction across all services. It operates in two phases:
+
 Phase 1 — Preparation:
 Each service checks whether its queries can be executed without actually running them.
 They verify things like database connectivity, constraint violations, and data existence, then report back to the coordinator. No data is written yet.
